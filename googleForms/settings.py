@@ -78,14 +78,21 @@ WSGI_APPLICATION = 'googleForms.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
+    # SQLite Configuration (Current Default)
     'default': {
-        "ENGINE": os.environ.get("DEFAULT_DB_ENGINE", default="django.db.backends.postgresql"),
-        "HOST": os.environ.get("DEFAULT_DB_HOST", default="127.0.0.1"),
-        "USER": os.environ.get("DEFAULT_DB_USER", default="postgres"),
-        "PASSWORD": os.environ.get("DEFAULT_DB_PASSWORD", default="postgres-password"),
-        "NAME": os.environ.get("DEFAULT_DB_NAME", default="postgres"), # Match this to your POSTGRES_DB in docker-compose
-        "PORT": os.environ.get("DEFAULT_DB_PORT", default="5432"),
-    }
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    },
+
+    # PostgreSQL Configuration (Commented out for later)
+    # 'default': {
+    #     "ENGINE": os.environ.get("DEFAULT_DB_ENGINE", default="django.db.backends.postgresql"),
+    #     "HOST": os.environ.get("DEFAULT_DB_HOST", default="127.0.0.1"),
+    #     "USER": os.environ.get("DEFAULT_DB_USER", default="postgres"),
+    #     "PASSWORD": os.environ.get("DEFAULT_DB_PASSWORD", default="postgres-password"),
+    #     "NAME": os.environ.get("DEFAULT_DB_NAME", default="postgres"),
+    #     "PORT": os.environ.get("DEFAULT_DB_PORT", default="5432"),
+    # },
 }
 
 
