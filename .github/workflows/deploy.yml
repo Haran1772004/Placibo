@@ -23,11 +23,13 @@ jobs:
             cd ~/Placibo
             
             # 1. Force the server to match GitHub exactly (This fixes the "no changes" issue)
+            # 2. Force the server to match GitHub
             git fetch --all
             git reset --hard origin/main
             
-            # 2. Kill the old process
-            sudo lsof -t -i:80 | xargs sudo kill -9 || true
+            # 3. Kill any process on Port 80 (Django or old runs)
+            sudo fuser -k 80/tcp || true
             
-            # 3. Restart the server
-            sudo nohup ./venv/bin/python3 manage.py runserver 0.0.0.0:80 > /dev/null 2>&1 &
+            # 4. Start server with full path to ensure it finds everything
+            cd ~/Placibo
+            sudo nohup ./venv/bin/python3 manage.py runserver 0.0.0.0:80 > django.log 2>&1 &
