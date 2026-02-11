@@ -18,14 +18,14 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            # 1. Enter the correct folder
+            # Enter the project root verified in Warp
             cd ~/Placibo
             
-            # 2. Update the code
+            # Pull the latest code (including hari.txt and haridummy)
             git pull origin main
             
-            # 3. Kill the old server process
+            # Kill the process on Port 80 to allow a restart
             sudo lsof -t -i:80 | xargs sudo kill -9 || true
             
-            # 4. Start the server
+            # Start the server using the project's internal venv
             sudo nohup ./venv/bin/python3 manage.py runserver 0.0.0.0:80 > /dev/null 2>&1 &
