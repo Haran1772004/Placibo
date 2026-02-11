@@ -18,15 +18,14 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-           script: |
             # 1. Enter the correct folder
             cd ~/Placibo
             
-            # 2. Get the new changes from GitHub
+            # 2. Update the code
             git pull origin main
             
-            # 3. Stop any old server on Port 80
+            # 3. Kill the old server process
             sudo lsof -t -i:80 | xargs sudo kill -9 || true
             
-            # 4. Start the server using the venv found in your project folder
+            # 4. Start the server
             sudo nohup ./venv/bin/python3 manage.py runserver 0.0.0.0:80 > /dev/null 2>&1 &
