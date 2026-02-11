@@ -18,7 +18,15 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd ~/Projects/Placibo/gforms
+            script: |
+            # 1. Enter the correct folder we found in Warp
+            cd ~/Placibo
+            
+            # 2. Get the new haridummy folder from GitHub
             git pull origin main
+            
+            # 3. Stop any old server
             sudo lsof -t -i:80 | xargs sudo kill -9 || true
+            
+            # 4. Start the server from the correct path
             sudo nohup /home/ubuntu/.local/share/virtualenvs/Placibo-HhCy19eU/bin/python3 manage.py runserver 0.0.0.0:80 > /dev/null 2>&1 &
