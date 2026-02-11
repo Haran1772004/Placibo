@@ -19,13 +19,15 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             # Enter the project root verified in Warp
+            
             cd ~/Placibo
             
-            # Pull the latest code (including hari.txt and haridummy)
-            git pull origin main
+            # 1. Force the server to match GitHub exactly (This fixes the "no changes" issue)
+            git fetch --all
+            git reset --hard origin/main
             
-            # Kill the process on Port 80 to allow a restart
+            # 2. Kill the old process
             sudo lsof -t -i:80 | xargs sudo kill -9 || true
             
-            # Start the server using the project's internal venv
+            # 3. Restart the server
             sudo nohup ./venv/bin/python3 manage.py runserver 0.0.0.0:80 > /dev/null 2>&1 &
