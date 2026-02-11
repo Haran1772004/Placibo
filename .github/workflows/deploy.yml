@@ -2,7 +2,7 @@ name: Deploy to AWS EC2
 
 on:
   push:
-    branches: [ main ] # This triggers the belt when you push code
+    branches: [ main ]
 
 jobs:
   deploy:
@@ -18,9 +18,14 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd ~/Placibo
+            # 1. Move to the folder where manage.py is located
+            cd ~/Projects/Placibo/gforms
+            
+            # 2. Pull the latest code from GitHub
             git pull origin main
-            # Kill the old server process on Port 80
+            
+            # 3. Kill the old server on Port 80
             sudo lsof -t -i:80 | xargs sudo kill -9 || true
-            # Start the server again in the background
-            sudo nohup /home/ubuntu/.local/share/virtualenvs/Placibo-HhCy19eU/bin/python3 manage.py runserver 0.0.0.0:80 &
+            
+            # 4. Start the server and prevent GitHub from waiting for the logs
+            sudo nohup /home/ubuntu/.local/share/virtualenvs/Placibo-HhCy19eU/bin/python3 manage.py runserver 0.0.0.0:80 > /dev/null 2>&1 &
