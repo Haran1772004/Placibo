@@ -32,4 +32,4 @@ jobs:
             
             # 4. Start server with full path to ensure it finds everything
             cd ~/Placibo
-            sudo nohup ./venv/bin/python3 manage.py runserver 0.0.0.0:80 > django.log 2>&1 &
+             sudo nohup /home/ubuntu/.local/share/virtualenvs/Placibo-HhCy19eU/bin/python3 manage.py runserver 0.0.0.0:80 > django.log 2>&1 &
