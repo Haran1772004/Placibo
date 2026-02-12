@@ -27,7 +27,7 @@ jobs:
             # --- NEW: ADDED FOR TASK 1 & 2 ---
             # 2. Install new packages (boto3, django-storages, openpyxl) 
             # We use the specific virtualenv path found in your Warp terminal
-            /home/ubuntu/.local/share/virtualenvs/Placibo-HhCy19eU/bin/pip install django-storages boto3 openpyxl
+            pipenv sync
             
             # 3. Apply database migrations for your new FormSubmission table
             sudo /home/ubuntu/.local/share/virtualenvs/Placibo-HhCy19eU/bin/python3 manage.py migrate --noinput
