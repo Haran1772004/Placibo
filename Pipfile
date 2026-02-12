@@ -9,9 +9,9 @@ djangorestframework = "*"
 django-extensions = "*"
 psycopg2-binary = "*"
 python-decouple = "*"
-django-storages = "*"
 boto3 = "*"
 openpyxl = "*"
+django-storages = {extras = ["s3"], version = "*"}
 
 [dev-packages]
 ruff = "*"
