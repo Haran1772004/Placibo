@@ -137,10 +137,11 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 100
 }
 # AWS S3 Configuration
-AWS_ACCESS_KEY_ID = 'AKIAQJ6XYLFTHIMJQVKQ'
-AWS_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'placibo-form-uploads-2026'
-AWS_S3_REGION_NAME = 'ap-south-1' 
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_REGION_NAME = os.environ.get('AWS_S3_REGION_NAME', 'us-east-1') # Default to us-east-1 if not set
+
 
 # Tell Django to use S3 for uploads
 
