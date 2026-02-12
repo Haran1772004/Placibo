@@ -9,6 +9,9 @@ djangorestframework = "*"
 django-extensions = "*"
 psycopg2-binary = "*"
 python-decouple = "*"
+django-storages = "*"
+boto3 = "*"
+openpyxl = "*"
 
 [dev-packages]
 ruff = "*"

@@ -22,3 +22,14 @@ class ShareForm(models.Model):
 
     def __str__(self):
         return f"{self.form} - {self.shared_user}"
+        # Add this at the bottom of your existing models.py
+class FormSubmission(models.Model):
+    # Linking to the specific UserForm you already created
+    form = models.ForeignKey(UserForm, on_delete=models.CASCADE, related_name='submissions')
+    user_name = models.CharField(max_length=255)
+    # This 'uploaded_file' will automatically go to S3 once we update settings.py
+    uploaded_file = models.FileField(upload_to='submissions/')
+    submitted_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Submission by {self.user_name} for {self.form.title}"

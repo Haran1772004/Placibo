@@ -18,33 +18,37 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            # Enter the project root verified in Warp
-            
             cd ~/Placibo
             
-            # 1. Force the server to match GitHub exactly (This fixes the "no changes" issue)
-            # 2. Force the server to match GitHub
+            # 1. Force the server to match GitHub exactly
             git fetch --all
             git reset --hard origin/main
             
-            # 3. Kill any process on Port 80 (Django or old runs)
+            # --- NEW: ADDED FOR TASK 1 & 2 ---
+            # 2. Install new packages (boto3, django-storages, openpyxl) 
+            # We use the specific virtualenv path found in your Warp terminal
+            /home/ubuntu/.local/share/virtualenvs/Placibo-HhCy19eU/bin/pip install django-storages boto3 openpyxl
+            
+            # 3. Apply database migrations for your new FormSubmission table
+            sudo /home/ubuntu/.local/share/virtualenvs/Placibo-HhCy19eU/bin/python3 manage.py migrate --noinput
+            # ---------------------------------
+
+            # 4. Kill any process on Port 80
             sudo fuser -k 80/tcp || true
             
-            # 4. Start server with full path to ensure it finds everything
-            cd ~/Placibo
-             sudo nohup /home/ubuntu/.local/share/virtualenvs/Placibo-HhCy19eU/bin/python3 manage.py runserver 0.0.0.0:80 > django.log 2>&1 &
-             # ... (existing script above)
-            # 5. Wait for the server to initialize
+            # 5. Start server with full path to ensure it finds everything
+            sudo nohup /home/ubuntu/.local/share/virtualenvs/Placibo-HhCy19eU/bin/python3 manage.py runserver 0.0.0.0:80 > django.log 2>&1 &
+            
+            # 6. Wait for the server to initialize
             sleep 5
 
-            # 6. Verify if the server is listening on Port 80
+            # 7. Verify if the server is listening on Port 80
             if sudo lsof -i :80; then
               echo "Deployment Successful: Server is running on port 80."
-            # Optional: Check the last 10 lines of the log for errors
               tail -n 10 django.log
             else
               echo "Deployment Failed: Server is not responding on port 80."
               echo "Last 20 lines of django.log:"
               tail -n 20 django.log
-            exit 1
+              exit 1
             fi

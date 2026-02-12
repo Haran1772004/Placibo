@@ -135,3 +135,14 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 100
 }
+# AWS S3 Configuration
+AWS_ACCESS_KEY_ID = 'AKIAQJ6XYLFTHIMJQVKQ'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'placibo-form-uploads-2026'
+AWS_S3_REGION_NAME = 'ap-south-1' 
+
+# Tell Django to use S3 for uploads
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+# This allows the S3 links to work in your browser
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
