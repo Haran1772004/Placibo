@@ -28,7 +28,11 @@ jobs:
             # 2. Install new packages (boto3, django-storages, openpyxl) 
             # We use the specific virtualenv path found in your Warp terminal
             pipenv sync
-            
+            echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" > .env
+            echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> .env
+            echo "AWS_STORAGE_BUCKET_NAME=${{ secrets.AWS_STORAGE_BUCKET_NAME }}" >> .env
+            echo "AWS_S3_REGION_NAME=${{ secrets.AWS_S3_REGION_NAME }}" >> .env
+
             # 3. Apply database migrations for your new FormSubmission table
             sudo /home/ubuntu/.local/share/virtualenvs/Placibo-HhCy19eU/bin/python3 manage.py migrate --noinput
             # ---------------------------------
